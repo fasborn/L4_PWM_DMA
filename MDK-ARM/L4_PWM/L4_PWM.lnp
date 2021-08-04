@@ -5,6 +5,7 @@
 "l4_pwm\gpio.o"
 "l4_pwm\dma.o"
 "l4_pwm\tim.o"
+"l4_pwm\usart.o"
 "l4_pwm\stm32l4xx_it.o"
 "l4_pwm\stm32l4xx_hal_msp.o"
 "l4_pwm\stm32l4xx_hal_tim.o"
@@ -24,6 +25,8 @@
 "l4_pwm\stm32l4xx_hal_pwr_ex.o"
 "l4_pwm\stm32l4xx_hal_cortex.o"
 "l4_pwm\stm32l4xx_hal_exti.o"
+"l4_pwm\stm32l4xx_hal_uart.o"
+"l4_pwm\stm32l4xx_hal_uart_ex.o"
 "l4_pwm\system_stm32l4xx.o"
 --library_type=microlib --strict --scatter "L4_PWM\L4_PWM.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols

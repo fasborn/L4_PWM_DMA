@@ -21,6 +21,7 @@
 #include "main.h"
 #include "dma.h"
 #include "tim.h"
+#include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -46,6 +47,7 @@
 
 /* USER CODE BEGIN PV */
 extern uint32_t BUF_DMA [ARRAY_LEN];
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -93,73 +95,45 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
+  MX_UART4_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-//	HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_8);
+	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, 0);
+	
+	fill_buffer(128, 2, 5);
+	
+	TIM1->CCMR1 |= TIM_CCMR1_OC1PE;
+//	for(int i =0; i<100; i++){
+//		BUF_DMA[i] = i;
+//	}
+//	
+//	for(int i =100; i<200; i++){
+//		BUF_DMA[i] = i-100;
+//	}	
+//	
+//	for(int i = 200; i<300; i++){
+//		BUF_DMA[i] = i-200;
+//	}	
+	
+//	SET_BIT(TIM1->DIER, TIM_IT_UPDATE);
+	
+//	htim1.Instance->SR = TIM_FLAG_UPDATE;
+//		HAL_TIM_PWM_Stop(&htim6, TIM_CHANNEL_2);
+//	HAL_TIM_PWM_Start_IT(&htim6, TIM_CHANNEL_2);
 //	HAL_TIM_PWM_Start_IT(&htim2, TIM_CHANNEL_2);
-//	DWT_Init();
+//	HAL_TIM_Base_Start_IT(&htim6); 
+	//__HAL_TIM_ENABLE_IT(&htim2, TIM_IT_CC2);
+//	__HAL_TIM_ENABLE_IT(&htim2, TIM_IT_UPDATE);
+//	TIM_CCxChannelCmd(htim2.Instance, TIM_CHANNEL_2, TIM_CCx_ENABLE);
+//	__HAL_TIM_ENABLE(&htim2);
+	
+	HAL_TIM_PWM_Start_DMA(&htim2, TIM_CHANNEL_2, BUF_DMA, 300);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	
-//	for(int u = 0; u<300; u++){
-//		for(int f = 0; f<32; f++){
-//			
-//			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, GPIO_PIN_SET);
-//			for(int x = 0; x<8; x++){}
-//			
-//			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, GPIO_PIN_RESET);
-//			for(int x = 0; x<15; x++){}
-//		}
-//	}
 
-
-	clear_strip();
-
-//	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, GPIO_PIN_RESET);
-//	for(int x = 0; x<1500; x++){		
-//	}
-	
-	
-	
-//	for(int u = 0; u<67; u++){
-//		for(int f = 0; f<32; f++){
-//			
-//			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, GPIO_PIN_SET);
-//			for(int x = 0; x<15; x++){}
-//			
-//			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, GPIO_PIN_RESET);			
-//			for(int x = 0; x<7; x++){}
-//		}
-//	}
-//	
-//	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, GPIO_PIN_RESET);
-//	for(int x = 0; x<1500; x++){
-//		
-//	}
-//
-	send_pixel(233);
-	send_pixel(23320);
-	send_pixel(233203);
-
-	//clear_strip();
-//	int timeDiff = 0;
-//	stopwatch_reset();
-//	
-
-//	for(int i = 0; i<20; i++){
-//		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, GPIO_PIN_SET);
-//		for(int i = 0; i<5; i++){}
-//		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, GPIO_PIN_RESET);
-//		for(int i = 0; i<15; i++){}
-//	}
-
-
-
-		
-
-//	fill_color(0, 255, 255, 0, 5, 100);
 	
   while (1)
   {
@@ -179,6 +153,7 @@ void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+  RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
 
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
@@ -203,10 +178,16 @@ void SystemClock_Config(void)
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_UART4;
+  PeriphClkInit.Uart4ClockSelection = RCC_UART4CLKSOURCE_PCLK1;
+  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     Error_Handler();
   }
@@ -220,6 +201,7 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 
+	
 //int leds[300] = {0};
 //uint8_t number_of_leds = 0;
 

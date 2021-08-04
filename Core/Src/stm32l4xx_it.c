@@ -23,6 +23,7 @@
 #include "stm32l4xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "sk6812.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -42,7 +43,8 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
-
+extern uint32_t BUF_DMA [ARRAY_LEN];
+uint8_t temp_d[10] = {5, 10, 20, 30, 40, 50, 60, 70, 80, 90};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -52,14 +54,13 @@
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+uint16_t timer_pulse_counter = 0;
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
 extern DMA_HandleTypeDef hdma_tim2_ch2_ch4;
-extern TIM_HandleTypeDef htim2;
 /* USER CODE BEGIN EV */
-
+extern UART_HandleTypeDef huart4;
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -206,7 +207,7 @@ void SysTick_Handler(void)
 void DMA1_Channel7_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA1_Channel7_IRQn 0 */
-//	HAL_TIM_PWM_Stop_DMA(&htim2,TIM_CHANNEL_2);
+
   /* USER CODE END DMA1_Channel7_IRQn 0 */
   HAL_DMA_IRQHandler(&hdma_tim2_ch2_ch4);
   /* USER CODE BEGIN DMA1_Channel7_IRQn 1 */
@@ -214,21 +215,38 @@ void DMA1_Channel7_IRQHandler(void)
   /* USER CODE END DMA1_Channel7_IRQn 1 */
 }
 
-/**
-  * @brief This function handles TIM2 global interrupt.
-  */
-void TIM2_IRQHandler(void)
-{
-  /* USER CODE BEGIN TIM2_IRQn 0 */
-//	HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_8);
-  /* USER CODE END TIM2_IRQn 0 */
-  HAL_TIM_IRQHandler(&htim2);
-  /* USER CODE BEGIN TIM2_IRQn 1 */
-
-  /* USER CODE END TIM2_IRQn 1 */
-}
-
 /* USER CODE BEGIN 1 */
 
+
+
+
+//////  /* USER CODE BEGIN TIM2_IRQn 0 */
+////////	if(htim2.Instance-> == htim2.Instance->CNT){
+////////		HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_8);
+////////	}
+//////	
+//////	//htim2.Instance->SR |= 0x4000;
+//////	__HAL_TIM_DISABLE(&htim2);
+//////	//HAL_TIM_PWM_Stop_IT(&htim2, TIM_CHANNEL_2);
+//////	//TIM_CCxChannelCmd(htim2.Instance, TIM_CHANNEL_2, TIM_CCx_DISABLE);
+//////	
+//////	timer_pulse_counter++;
+//////	
+//////	//htim2.Instance->CCR2 += timer_pulse_counter*200;
+//////	htim2.Instance->CCR2 = BUF_DMA[timer_pulse_counter];
+//////	//__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, 3000+timer_pulse_counter*200);
+//////	
+//////	if(timer_pulse_counter==20){
+//////		HAL_TIM_PWM_Stop_IT(&htim2, TIM_CHANNEL_2);
+//////	}
+//////	
+
+//////	//__HAL_TIM_ENABLE(&htim2);
+//////	TIM_CCxChannelCmd(htim2.Instance, TIM_CHANNEL_2, TIM_CCx_ENABLE);
+//////	//HAL_TIM_PWM_Start_IT(&htim2, TIM_CHANNEL_2);
+	
+	
+	
+	
 /* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

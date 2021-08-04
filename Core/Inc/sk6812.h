@@ -33,14 +33,15 @@
 #define LED_COUNT 300
 #define ARRAY_LEN DELAY_LEN + LED_COUNT*32
 
-
-
+#define HIGH 64
+#define LOW 36
 
 
 void send_bite(uint8_t bite);
 void send_pixel(int rgbw);
 void fill_color(uint8_t green, uint8_t red, uint8_t blue, uint8_t warm, uint8_t low, uint8_t high);
 void clear_strip(void);
+void fill_buffer(int color, uint8_t lower, uint8_t upper);
 
 /* USER CODE BEGIN Prototypes */
 

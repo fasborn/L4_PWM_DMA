@@ -30,3 +30,5 @@ l4_pwm\system_stm32l4xx.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr
 l4_pwm\system_stm32l4xx.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h
 l4_pwm\system_stm32l4xx.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h
 l4_pwm\system_stm32l4xx.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h
+l4_pwm\system_stm32l4xx.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h
+l4_pwm\system_stm32l4xx.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h
