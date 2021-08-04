@@ -43,6 +43,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
+extern TIM_HandleTypeDef htim2;
 extern uint32_t BUF_DMA [ARRAY_LEN];
 uint8_t temp_d[10] = {5, 10, 20, 30, 40, 50, 60, 70, 80, 90};
 /* USER CODE END PV */
@@ -207,7 +208,7 @@ void SysTick_Handler(void)
 void DMA1_Channel7_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA1_Channel7_IRQn 0 */
-
+	HAL_TIM_PWM_Stop_DMA(&htim2,TIM_CHANNEL_2);
   /* USER CODE END DMA1_Channel7_IRQn 0 */
   HAL_DMA_IRQHandler(&hdma_tim2_ch2_ch4);
   /* USER CODE BEGIN DMA1_Channel7_IRQn 1 */

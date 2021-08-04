@@ -100,7 +100,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, 0);
 	
-	fill_buffer(128, 2, 5);
+	fill_buffer(0xFFFFFFFF, 2, 15);
 	
 	TIM1->CCMR1 |= TIM_CCMR1_OC1PE;
 //	for(int i =0; i<100; i++){
@@ -127,7 +127,7 @@ int main(void)
 //	TIM_CCxChannelCmd(htim2.Instance, TIM_CHANNEL_2, TIM_CCx_ENABLE);
 //	__HAL_TIM_ENABLE(&htim2);
 	
-	HAL_TIM_PWM_Start_DMA(&htim2, TIM_CHANNEL_2, BUF_DMA, 300);
+	HAL_TIM_PWM_Start_DMA(&htim2, TIM_CHANNEL_2, BUF_DMA, 1200);
   /* USER CODE END 2 */
 
   /* Infinite loop */
