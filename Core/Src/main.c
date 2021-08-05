@@ -100,7 +100,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, 0);
 	
-	fill_buffer(0xFFFFFFFF, 2, 15);
+
 	
 	TIM1->CCMR1 |= TIM_CCMR1_OC1PE;
 //	for(int i =0; i<100; i++){
@@ -126,8 +126,57 @@ int main(void)
 //	__HAL_TIM_ENABLE_IT(&htim2, TIM_IT_UPDATE);
 //	TIM_CCxChannelCmd(htim2.Instance, TIM_CHANNEL_2, TIM_CCx_ENABLE);
 //	__HAL_TIM_ENABLE(&htim2);
+
+//	fill_buffer(0x00000F00, 0, 15);
+//	HAL_TIM_PWM_Start_DMA(&htim2, TIM_CHANNEL_2, BUF_DMA, 1200);
+//	
+//	HAL_Delay(1000);
+//	fill_buffer(0x00000000, 0, 15);
+//	HAL_TIM_PWM_Start_DMA(&htim2, TIM_CHANNEL_2, BUF_DMA, 10000);
+//	HAL_Delay(1000);
+//	fill_buffer(0x01000000, 0, 15);
+//	HAL_TIM_PWM_Start_DMA(&htim2, TIM_CHANNEL_2, BUF_DMA, 1200);
+//	
+//	HAL_Delay(1000);
+//	fill_buffer(0x00010000, 0, 15);
+//	HAL_TIM_PWM_Start_DMA(&htim2, TIM_CHANNEL_2, BUF_DMA, 1200);
+//	
+//	HAL_Delay(1000);
+//	fill_buffer(0x00000100, 0, 15);
+//	HAL_TIM_PWM_Start_DMA(&htim2, TIM_CHANNEL_2, BUF_DMA, 1200);	
+//	
+//	HAL_Delay(1000);
+//	fill_buffer(0x00000000, 0, 15);
+//	HAL_TIM_PWM_Start_DMA(&htim2, TIM_CHANNEL_2, BUF_DMA, 1200);
+
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, 0);
 	
-	HAL_TIM_PWM_Start_DMA(&htim2, TIM_CHANNEL_2, BUF_DMA, 1200);
+	fill_buffer(0x67003100, 0, 1);
+	HAL_TIM_PWM_Start_DMA(&htim2, TIM_CHANNEL_2, BUF_DMA, 150);	
+	HAL_Delay(8);
+	
+//	for(int qua = 0; qua < 0xFFFFFFFF; qua++){
+//		fill_buffer(qua&0xFFFFFF00, 0, 1);
+//		HAL_TIM_PWM_Start_DMA(&htim2, TIM_CHANNEL_2, BUF_DMA, 150);		
+//		HAL_Delay(8);
+//	}
+	
+
+//	HAL_Delay(1000);
+////	fill_buffer(0x00000000, 0, 15);
+//	fill_buffer(0x00FF0000, 10, 15);
+//	HAL_TIM_PWM_Start_DMA(&htim2, TIM_CHANNEL_2, BUF_DMA, 10000);
+
+//	HAL_Delay(1000);
+////	fill_buffer(0x00000000, 0, 15);
+//	fill_buffer(0x0000FF00, 15, 20);
+//	HAL_TIM_PWM_Start_DMA(&htim2, TIM_CHANNEL_2, BUF_DMA, 10000);
+
+//	HAL_Delay(1000);
+////	fill_buffer(0x00000000, 0, 15);
+//	fill_buffer(0x000000FF, 20, 25);
+//	HAL_TIM_PWM_Start_DMA(&htim2, TIM_CHANNEL_2, BUF_DMA, 10000);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
